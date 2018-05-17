@@ -3,22 +3,27 @@ const socket = io();
 const $messageform = $('#message-form');
 const $messageBox = $('#message');
 const $chat = $('#chat');
-const $nickForm = $('#nickFrom');
+const $loginFrom = $('#loginFrom');
 const $nickError = $('#nickError');
 const $nickname = $('#nickname');
+const $password = $('#password');
 const $usuarios = $('#usernames');
+const $regist = $('#regist');
+const $registFrom = $('#registFrom');
 var nombre;
+var myUser;
 
 $(function(){
-    $nickForm.submit(e => {
+  $('#title').html(`<h1 class="navbar-brand mx-auto">Let's Chat!</h1>`);
+    $loginFrom.submit(e => {
     e.preventDefault();
-    socket.emit('new user', $nickname.val(), data => {
+    socket.emit('login', {user: $nickname.val(), password: $password.val()}, data => {
       if(data){
         $('#nickWrap').hide();
         $('#contentWrap').show();
       }
       else{
-        $nickError.html('<div class="alert alert-danger">That username already exist.</div>');
+        $nickError.html('<div class="alert alert-danger">User Not Found.</div>');
       }
       $nickname.val('');
     });
@@ -34,10 +39,18 @@ $(function(){
     $chat.append('<b>'+ data.nick + '</b>: '+ data.msg+'<br/>');
   });
 
+  socket.on('getMyUser', data => {
+    myUser = data;
+    $('#title').html(`<h1 class="navbar-brand mx-auto">Let's Chat ${data}!</h1>`);
+  });
+
   socket.on('usernames', data => {
+    let valores = Object.values(data);
     let html = '';
-    for(let i=0; i<data.length; i++){
-      html += `<p><button onclick="newchat('${data[i]}')"><i class="fas fa-user"></i> ${data[i]}</button></p>`
+    for(let i=0; i<valores.length; i++){
+      if(valores[i].user != myUser){
+        html += `<button class="btn btn-dark btn-lg" onclick="newchat('${valores[i].user}', '${socket}')"><i class="fas fa-user"></i> ${valores[i].user}<br/>${valores[i].name}</button>`
+      }
     }
     $usuarios.html(html);
   });
@@ -52,12 +65,30 @@ $(function(){
     }
   });
 
+  $regist.click(function(){
+    $('#nickWrap').hide();
+    $('#registWrap').show();
+  });
+
+  $registFrom.submit( e => {
+    e.preventDefault();
+    socket.emit('sing-up', {first_name: $('#name').val(), last_name: $('#last').val(), user: $('#user').val(), email: $('#email').val(), password: $('#pass').val()});
+    $('#name').val('');
+    $('#last').val('');
+    $('#user').val('');
+    $('#email').val('');
+    $('#pass').val('');
+    $('#nickWrap').show();
+    $('#registWrap').hide();
+  });
+
   function displayMsg(data){
     $chat.append(`<p class="whisper"><b>${data.nick}:</b> ${data.msg}</p>`);
   }
 });
 
-function newchat(user){
-  $('#nombrechat').html("Chat con <b id='nom'>"+user+"</b>");
+function newchat(user, socket){
+  $('#nombrechat').html(`Chat con ${user}`);
   nombre = user;
+  console.log({from: myUser, to: nombre});
 }

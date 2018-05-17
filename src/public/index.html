@@ -11,53 +11,86 @@
     <link rel="stylesheet" href="/css/main.css">
   </head>
   <body>
-    <nav class="navbar navbar-dark bg-dark">
-      <h1 class="navbar-brand mx-auto">JavaScript FullStack Chat</h1>
+    <nav class="navbar navbar-dark bg-dark" id="title">
+
     </nav>
 
-    <div class="col-md-4 mt-5 mx-auto" id="nickWrap">
+    <div class="col-md-5 mt-5 mx-auto" id="nickWrap">
       <div class="card">
         <div class="card-header">
-          <h3>Enter your Username:</h3>
+          <h3>Sing-In or Sing-Up To The Chat!</h3>
         </div>
         <p id="nickError"></p>
         <div class="card-body">
-          <form id="nickFrom">
+          <form id="loginFrom">
+            <label for="nickname">Username:</label>
             <input type="text" id="nickname" class="form-control">
-            <button type="submit" class="btn btn-dark btn-block mt-2"><i class="fas fa-sign-in-alt"></i> Login</button>
+            <label for="nickname">Password:</label>
+            <input type="password" id="password" class="form-control">
+            <button type="submit" class="btn btn-dark btn-block mt-2 btn-lg"><i class="fas fa-sign-in-alt"></i> Sing-In</button>
+          </form>
+          <button id="regist" class="btn btn-dark btn-block mt-2 btn-lg"><i class="fas fa-user-plus"></i> Sing-Up</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mt-5 mb-5 mx-auto" id="registWrap">
+      <div class="card">
+        <div class="card-header">
+          <h3>Sing-Up</h3>
+        </div>
+        <div class="card-body">
+          <form id="registFrom">
+            <label for="name">First Name:</label>
+            <input type="text" id="name" class="form-control">
+
+            <label for="last">Last Name:</label>
+            <input type="text" id="last" class="form-control">
+
+            <label for="user">User Name:</label>
+            <input type="text" id="user" class="form-control">
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" class="form-control">
+
+            <label for="pass">Password:</label>
+            <input type="password" id="pass" class="form-control">
+
+            <button type="submit" class="btn btn-dark btn-block mt-2 btn-lg"><i class="fas fa-user-plus"></i> Sing-Up</button>
           </form>
         </div>
       </div>
     </div>
 
     <div class="container" id="contentWrap">
-      <div class="row mt-4">
-        <div class="col-md-6 offset-md-1">
+      <div class="row">
+        <div class="col-md-6 offset-md-1 mt-4">
           <div class="card">
             <div class="card-header">
-              <g4 id="nombrechat">Let's Chat</g4>
+              <h3 id="nombrechat">Let's Chat</h3>
             </div>
             <div id="chat" style="overflow-y:scroll; height:20em;" class="card-body"></div>
             <form id="message-form" class="card-footer">
               <div class="input-group">
                 <input type="text" id="message" class="form-control">
                 <div class="input-group-append">
-                  <button type="submit" class="btn btn-dark"><i class="fas fa-location-arrow"></i> Send</button>
+                  <button type="submit" class="btn btn-dark btn-lg"><i class="fas fa-paper-plane"></i> Send</button>
                 </div>
               </div>
             </form>
           </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-3 mt-4">
           <div class="card">
             <div class="card-header">
               <h3>Users</h3>
             </div>
-            <div class="card-body">
-              <div id="usernames" style="overflow-y:scroll; height:20em;">
+            <div id="usernames" class="card-body btn-group-vertical" style="overflow-y:scroll; height:20em;">
 
-              </div>
+            </div>
+            <div class="card-footer">
+              <button class="btn btn-danger btn-lg"><i class="fas fa-sign-out-alt"></i> Sing-Out</button>
             </div>
           </div>
         </div>
