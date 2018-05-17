@@ -4,6 +4,7 @@
   "description": "chat de prueba",
   "main": "./src/index.js",
   "scripts": {
+    "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "test": "echo \"Error: I don't have any test yet :-[\" && exit 1"
   },
