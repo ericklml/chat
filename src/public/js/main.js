@@ -14,6 +14,7 @@ var nombre;
 var myUser;
 
 $(function(){
+  $nickname.focus();
   $('#title').html(`<h1 class="navbar-brand mx-auto">Let's Chat!</h1>`);
     $loginFrom.submit(e => {
     e.preventDefault();
@@ -26,6 +27,7 @@ $(function(){
         $nickError.html('<div class="alert alert-danger">User Not Found.</div>');
       }
       $nickname.val('');
+      $password.vall('');
     });
   });
 
@@ -36,11 +38,13 @@ $(function(){
   });
 
   socket.on('new message', data => {
-    if(data.nick === myUser){
-      $chat.append(`<p class="text-right">${data.msg} <b>:${data.nick}</b></p>`);
-    }
-    else{
-      $chat.append(`<p class="text-left"><b>${data.nick}: </b> ${data.msg}</p>`);
+    if(data.nick === nombre || data.nick === myUser){
+      if(data.nick === myUser){
+        $chat.append(`<p class="text-right">${data.msg} <b>:${data.nick}</b></p>`);
+      }
+      else{
+        $chat.append(`<p class="text-left"><b>${data.nick}: </b> ${data.msg}</p>`);
+      }
     }
   });
 
