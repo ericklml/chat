@@ -36,7 +36,12 @@ $(function(){
   });
 
   socket.on('new message', data => {
-    $chat.append('<b>'+ data.nick + '</b>: '+ data.msg+'<br/>');
+    if(data.nick === myUser){
+      $chat.append(`<p class="text-right">${data.msg} <b>:${data.nick}</b></p>`);
+    }
+    else{
+      $chat.append(`<p class="text-left"><b>${data.nick}: </b> ${data.msg}</p>`);
+    }
   });
 
   socket.on('getMyUser', data => {
@@ -49,7 +54,7 @@ $(function(){
     let html = '';
     for(let i=0; i<valores.length; i++){
       if(valores[i].user != myUser){
-        html += `<button class="btn btn-dark btn-lg" onclick="newchat('${valores[i].user}', '${socket}')"><i class="fas fa-user"></i> ${valores[i].user}<br/>${valores[i].name}</button>`
+        html += `<button class="btn btn-dark btn-lg" onclick="newchat('${valores[i].user}')"><i class="fas fa-user"></i> ${valores[i].user}<br/>${valores[i].name}</button>`
       }
     }
     $usuarios.html(html);
@@ -62,6 +67,18 @@ $(function(){
   socket.on('load old msgs', msgs => {
     for(let i=0; i<msgs.length; i++){
       displayMsg(msgs[i]);
+    }
+  });
+
+  socket.on('db-msgs', data => {
+    let messages = Object.values(data);
+    for(let i=0; i<messages.length; i++){
+      if(messages[i].nick === myUser){
+        $chat.append(`<p class="text-right">${messages[i].msg} <b>:${messages[i].nick}</b></p>`);
+      }
+      else{
+        $chat.append(`<p class="text-left"><b>${messages[i].nick}: </b> ${messages[i].msg}</p>`);
+      }
     }
   });
 
@@ -87,8 +104,9 @@ $(function(){
   }
 });
 
-function newchat(user, socket){
+function newchat(user){
   $('#nombrechat').html(`Chat with ${user}`);
   nombre = user;
-  console.log({from: myUser, to: nombre});
+  $chat.empty();
+  socket.emit('chat', {from: myUser, to: nombre});
 }

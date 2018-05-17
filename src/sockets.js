@@ -23,7 +23,6 @@ module.exports = function(io){
     });
 
     socket.on('send message', async data => {
-      console.log(data);
       if (data.user in users){
         users[data.user].emit('new message', {
           msg: data.msg,
@@ -47,6 +46,11 @@ module.exports = function(io){
       await newUser.save((err, results) => {
         console.log(results);
       });
+    });
+
+    socket.on('chat', async data => {
+      let messages = await Chat.find({"$or": [{"$and": [{"nick": `${data.from}`},{"to": `${data.to}`}]},{"$and": [{"nick": `${data.to}`},{"to": `${data.from}`}]}]});
+      socket.emit('db-msgs', messages);
     });
 
     socket.on('disconnect', data => {
