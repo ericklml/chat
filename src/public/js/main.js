@@ -88,7 +88,7 @@ $(function(){
 });
 
 function newchat(user, socket){
-  $('#nombrechat').html(`Chat con ${user}`);
+  $('#nombrechat').html(`Chat with ${user}`);
   nombre = user;
   console.log({from: myUser, to: nombre});
 }
