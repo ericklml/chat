@@ -92,12 +92,10 @@ $(function(){
   $messageBox.typing({
     start: function (event, $elem) {
       data = {'typing': true, 'message': 'is typing!', 'from': myUser, 'to': nombre};
-      console.log("escribiendo");
       socket.emit('typing', data);
     },
     stop: function (event, $elem) {
       data = {'typing': true, 'message': 'is typing!', 'from': myUser, 'to': nombre};
-        console.log("ya no");
         socket.emit('stop typing', data);
     },
     delay: 1500
