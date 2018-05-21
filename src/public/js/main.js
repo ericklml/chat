@@ -19,6 +19,25 @@ var intervalo;
 var data;
 
 $(function(){
+  ion.sound({
+    sounds: [
+        {
+            name: "button_tiny"
+        },
+        {
+            name: "notify_sound",
+            volume: 0.2
+        },
+        {
+            name: "alert_sound",
+            volume: 0.3,
+            preload: false
+        }
+    ],
+    volume: 1,
+    path: "sounds/",
+    preload: true
+});
   $nickname.focus();
   $('#title').html(`<h1 class="navbar-brand mx-auto">Let's Chat!</h1>`);
     $loginFrom.submit(e => {
@@ -43,6 +62,7 @@ $(function(){
   });
 
   socket.on('new message', data => {
+    ion.sound.play("button_tiny");
     if(data.nick === nombre || data.nick === myUser){
       if(data.nick === myUser){
         $chat.append(`<p class="text-right">${data.msg} <b>:${data.nick}</b></p>`);
