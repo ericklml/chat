@@ -25,11 +25,11 @@ $(function(){
             name: "button_tiny"
         },
         {
-            name: "notify_sound",
+            name: "snap",
             volume: 0.2
         },
         {
-            name: "alert_sound",
+            name: "tap",
             volume: 0.3,
             preload: false
         }
