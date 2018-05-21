@@ -53,6 +53,25 @@ module.exports = function(io){
       socket.emit('db-msgs', messages);
     });
 
+    socket.on('typing', data => {
+      if (data.to in users){
+        users[data.to].emit('typing-me', {
+          msg: data.message,
+          nick: socket.nickname
+        });
+      }
+    });
+
+    socket.on('stop typing', data => {
+      if (data.to in users){
+        console.log(data.from+" is not typing");
+        users[data.to].emit('not-typing-me', {
+          msg: data.message,
+          nick: socket.nickname
+        });
+      }
+    });
+
     socket.on('disconnect', data => {
       if(!socket.nickname) return;
       console.log(socket.nickname+' desconectado');

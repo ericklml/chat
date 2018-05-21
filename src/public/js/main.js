@@ -12,6 +12,11 @@ const $regist = $('#regist');
 const $registFrom = $('#registFrom');
 var nombre;
 var myUser;
+var typing = false;
+var lastTypingTime;
+var TYPING_TIMER_LENGTH = 400;
+var intervalo;
+var data;
 
 $(function(){
   $nickname.focus();
@@ -27,7 +32,7 @@ $(function(){
         $nickError.html('<div class="alert alert-danger">User Not Found.</div>');
       }
       $nickname.val('');
-      $password.vall('');
+      $password.val('');
     });
   });
 
@@ -64,8 +69,26 @@ $(function(){
     $usuarios.html(html);
   });
 
-  socket.on('whisper', data => {
-    $chat.append(`<p class="whisper"><b>${data.nick}:</b> ${data.msg}</p>`);
+  $messageBox.typing({
+    start: function (event, $elem) {
+      data = {'typing': true, 'message': 'is typing!', 'from': myUser, 'to': nombre};
+      console.log("escribiendo");
+      socket.emit('typing', data);
+    },
+    stop: function (event, $elem) {
+      data = {'typing': true, 'message': 'is typing!', 'from': myUser, 'to': nombre};
+        console.log("ya no");
+        socket.emit('stop typing', data);
+    },
+    delay: 1500
+  });
+
+  socket.on('typing-me', data => {
+    $('#isTyping').html(`<b>${data.nick}</b> ${data.msg}`);
+  });
+
+  socket.on('not-typing-me', data => {
+    $('#isTyping').empty();
   });
 
   socket.on('load old msgs', msgs => {

@@ -69,6 +69,9 @@
           <div class="card">
             <div class="card-header">
               <h3 id="nombrechat">Let's Chat</h3>
+              <div>
+                <p id="isTyping" class="whisper"></p>
+              </div>
             </div>
             <div id="chat" style="overflow-y:scroll; height:20em;" class="card-body"></div>
             <form id="message-form" class="card-footer">
@@ -102,6 +105,7 @@
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
     <script src="/socket.io/socket.io.js" charset="utf-8"></script>
+    <script src="/js/typing.js" charset="utf-8"></script>
     <script src="/js/main.js" charset="utf-8"></script>
   </body>
 </html>
