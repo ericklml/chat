@@ -8,7 +8,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio.listen(server);
 
-mongoose.connect('mongodb://chatjs:chatjs@ds219000.mlab.com:19000/chatjs')
+mongoose.connect('mongodb+srv://chatjs:chatjs@cluster0.00rpi.mongodb.net/test')
   .then(db => console.log('db is connect'))
   .catch(err => console.log(err));
 
